@@ -71,7 +71,7 @@ for ($i = 0; $i < $size; $i++) {
 
 <body>
     <?php
-    if (isset($_GET["row"]) && isset($_GET["col"])) {
+    if (isset($_GET["row"]) && isset($_GET["col"]) && !isset($_GET["change"])) {
         $parameterI = (int)$_GET["row"];
         $parameterJ = (int)$_GET["col"];
 
@@ -98,6 +98,10 @@ for ($i = 0; $i < $size; $i++) {
             }
             */
         }
+    } elseif (isset($_GET["row"]) && isset($_GET["col"]) && isset($_GET["change"])) {
+        $parameterI = (int)$_GET["row"];
+        $parameterJ = (int)$_GET["col"];
+        $_SESSION["showMap"][$parameterI][$parameterJ] = 'B';
     }
     ?>
 
@@ -134,19 +138,18 @@ for ($i = 0; $i < $size; $i++) {
             for ($j = 0; $j < $size; $j++) {
 
                 //echo "<td class='box'  style='color:black; background-color:lightgray'><a onclick='readPosition(" . $i . "," . $j . ");'>" . $map[$i][$j]."</a></td>";
-                
-                if ($_SESSION["showMap"][$i][$j] != 'x' && $_SESSION["showMap"][$i][$j] != '*'){
-                    if($_SESSION["showMap"][$i][$j] != '0'){
-                        echo "<td class='box'  style='color:black; background-color:#bffa84'>" . $map[$i][$j]."</td>";
-                    }else{
+
+                if ($_SESSION["showMap"][$i][$j] != 'x' && $_SESSION["showMap"][$i][$j] != '*') {
+                    if ($_SESSION["showMap"][$i][$j] != '0' && $_SESSION["showMap"][$i][$j] != 'B') {
+                        echo "<td class='box'  style='color:black; background-color:#bffa84'>" . $map[$i][$j] . "</td>";
+                    } elseif ($_SESSION["showMap"][$i][$j] == 'B') {
+                        echo "<td class='box'  style='color:black; background-color:#e30e0e'>" . $map[$i][$j] . "</td>";
+                    } else {
                         echo "<td class='box'  style='color:black; background-color:#bffa84'></td>";
                     }
-                }else{
-                    echo "<td class='box'  style='color:black; background-color:lightgray'><a onclick='readPosition(" . $i . "," . $j . ");' >?</a></td>";
+                } else {
+                    echo "<td class='box'  style='color:black; background-color:lightgray'><a onmousedown='readPosition(" . $i . "," . $j . ", event);' >?</a></td>";
                 }
-
-
-                
             }
             echo "</tr>";
         }
@@ -156,8 +159,12 @@ for ($i = 0; $i < $size; $i++) {
     <button><a href="./close_session.php">Reset</a></button>
 
     <script type="text/javascript">
-        function readPosition(row, col) {
-            document.location = "game.php?row=" + row + "&col=" + col;
+        function readPosition(row, col, event) {
+            if (event.button == 1) {
+                document.location = "game.php?row=" + row + "&col=" + col + "&change=1";
+            } else if (event.button == 0){
+                document.location = "game.php?row=" + row + "&col=" + col;
+            }
         }
     </script>
 </body>
