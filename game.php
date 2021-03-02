@@ -1,21 +1,42 @@
 <?php
+function checkForMines($row, $col, $map, &$auxMap)
+{
+    if ($row < 0 || $row >= $_SESSION["size"]) {
+        return;
+    }
+
+    if ($col < 0 || $col >= $_SESSION["size"]) {
+        return;
+    }
+
+    if ($auxMap[$row][$col]) {
+        return;
+    }
+
+    if ($map[$row][$col] == '*') {
+        $auxMap[$row][$col] = false;
+        return;
+    }
+
+    $auxMap[$row][$col] = true;
+    checkForMines($row - 1, $col, $map, $auxMap);
+    checkForMines($row + 1, $col, $map, $auxMap);
+    checkForMines($row, $col - 1, $map, $auxMap);
+    checkForMines($row, $col + 1, $map, $auxMap);
+}
+
 session_start();
 
 $size = $_SESSION["size"];
 $minesNumber = $_SESSION["minesNumber"];
 $map = $_SESSION["matrixMap"];
-/*
-// imprimiendo la matriz
-for ($i = 0; $i < $size; $i++){
-    for ($j = 0; $j < $size; $j++){
-        echo $_SESSION["matrix_map"][$i][$j]." ";        
+
+for ($i = 0; $i < $size; $i++) {
+    for ($j = 0; $j < $size; $j++) {
+        $auxMap[$i][$j] = false;
+        //$_SESSION['auxMap'] = '0';
     }
-    echo "<br>";
 }
-
-*/
-
-
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +68,52 @@ for ($i = 0; $i < $size; $i++){
 </head>
 
 <body>
+    <?php
+    if (isset($_GET["row"]) && isset($_GET["col"])) {
+        $parameterI = (int)$_GET["row"];
+        $parameterJ = (int)$_GET["col"];
+
+        // finalizar juego
+        if ($map[$parameterI][$parameterJ] == '*') {
+            header("location: ./index");
+            session_destroy();
+        } else {
+            checkForMines($parameterI, $parameterJ, $map, $auxMap);
+
+
+            /*
+            for ($i = 0; $i < $size; $i++) {
+                for ($j = 0; $j < $size; $j++) {
+                    if ($auxMap[$i][$j] != '0') {
+                        $_SESSION['auxMap'][$i][$j] = $auxMap[$i][$j];
+                    }
+                }
+            }
+            */
+            /*
+            for ($i = 0; $i < $size; $i++) {
+                for ($j = 0; $j < $size; $j++) {
+                    echo $auxMap[$i][$j] . " ";
+                }
+                echo "<br>";
+            }
+            */
+        }
+    }
+    ?>
+
+    <?php
+    for ($i = 0; $i < $size; $i++) {
+        for ($j = 0; $j < $size; $j++) {
+            if (!$auxMap[$i][$j]) {
+                echo "x ";
+            } else {
+                echo $auxMap[$i][$j] . " ";
+            }
+        }
+        echo "<br>";
+    }
+    ?>
 
     <table>
         <?php
@@ -54,7 +121,7 @@ for ($i = 0; $i < $size; $i++){
             echo "<tr>";
             for ($j = 0; $j < $size; $j++) {
                 echo "<td class='box'  style='color:black; background-color:lightgray'><a onclick='readPosition(" . $i . "," . $j . ");'>" .
-                    $map[$i][$j]. "</a></td>";
+                    $map[$i][$j] . "</a></td>";
             }
             echo "</tr>";
         }
@@ -62,11 +129,14 @@ for ($i = 0; $i < $size; $i++){
     </table>
 
 
+
+
+
     <script type="text/javascript">
-        function readPosition(row,col){
-            alert("row="+row+"&col="+col);
-            document.location="game.php?row="+row+"&col="+col;
+        function readPosition(row, col) {
+            document.location = "game.php?row=" + row + "&col=" + col;
         }
     </script>
 </body>
+
 </html>

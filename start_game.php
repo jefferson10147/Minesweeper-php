@@ -6,7 +6,7 @@
     }
 
     $size = $_GET["size"];
-    $minesNumber = round($size * 0.35);
+    $minesNumber = round(($size * $size) * 0.30);
     
     session_start();
 
@@ -34,7 +34,7 @@
             if ($_SESSION["matrixMap"][$i][$j] == '0'){
                 // echo ("at ".$i." ".$j."<br>");
                 $minesAtPosition = countMines($_SESSION["matrixMap"], $size, $i, $j);
-                $_SESSION["matrixMap"][$i][$j] = $minesAtPosition;
+                $_SESSION["matrixMap"][$i][$j] = strval($minesAtPosition);
             }        
         }
     }
