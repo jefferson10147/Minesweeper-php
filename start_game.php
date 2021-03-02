@@ -17,7 +17,7 @@
         }
     }
     
-    // colocando minas 
+    // colocando minas aleatorias
     $minesLaid = 0;
     while ($minesLaid < $minesNumber){
         $row = rand(0,$size-1);
@@ -26,6 +26,58 @@
             $_SESSION["matrixMap"][$row][$col] = '*';
             $minesLaid ++;
         }
+    }
+
+    //poniendo el numero de minas que hay alrededor de determinada casilla
+    for ($i = 0; $i < $size; $i++){
+        for ($j = 0; $j < $size; $j++){
+            if ($_SESSION["matrixMap"][$i][$j] == '0'){
+                // echo ("at ".$i." ".$j."<br>");
+                $minesAtPosition = countMines($_SESSION["matrixMap"], $size, $i, $j);
+                $_SESSION["matrixMap"][$i][$j] = $minesAtPosition;
+            }        
+        }
+    }
+    
+
+    function countMines($matrix,$size, $row, $col){
+        $minesAtPosition = 0;
+        // diagonals
+        if (($row - 1 >= 0 && $col - 1 >= 0) && $matrix[$row - 1][$col - 1] == '*'){
+            $minesAtPosition ++;
+        } 
+
+        if (($row + 1 < $size && $col - 1 >= 0) && $matrix[$row + 1][$col - 1] == '*'){
+            $minesAtPosition ++;
+        }
+
+        if (($row - 1 >= 0 && $col + 1 < $size) && $matrix[$row - 1][$col + 1] == '*'){
+            $minesAtPosition ++;
+        }
+
+        if (($row + 1 < $size && $col + 1 < $size) && $matrix[$row + 1][$col + 1] == '*'){
+            $minesAtPosition ++;
+        }
+
+        // up down and sides 
+        if (($row - 1 >= 0) && $matrix[$row - 1][$col] == '*'){
+            $minesAtPosition ++;
+        }
+
+        if (($row + 1 < $size) && $matrix[$row + 1][$col] == '*'){
+            $minesAtPosition ++;
+        }
+
+        if (($col - 1 >= 0) && $matrix[$row][$col - 1] == '*'){
+            $minesAtPosition ++;
+        }
+
+        if (($col + 1 < $size) && $matrix[$row][$col + 1] == '*'){
+            $minesAtPosition ++;
+        }
+        
+        // echo("NUMERO DE MINAAS ".$minesAtPosition."<br>");
+        return $minesAtPosition;
     }
 
     // imprimiendo la matriz
