@@ -91,6 +91,7 @@
 
     $_SESSION["size"] = $size;
     $_SESSION["minesNumber"] = $minesNumber;
+    $_SESSION["minesFound"] = 0;
 
     header("location: ./game.php");
 ?>

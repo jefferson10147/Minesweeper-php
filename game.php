@@ -33,7 +33,6 @@ $size = $_SESSION["size"];
 $minesNumber = $_SESSION["minesNumber"];
 $map = $_SESSION["matrixMap"];
 
-
 for ($i = 0; $i < $size; $i++) {
     for ($j = 0; $j < $size; $j++) {
         $auxMap[$i][$j] = false;
@@ -79,6 +78,7 @@ for ($i = 0; $i < $size; $i++) {
         if ($map[$parameterI][$parameterJ] == '*') {
             header("location: ./index");
             session_destroy();
+        
         } else {
             checkForMines($parameterI, $parameterJ, $map, $auxMap);
 
@@ -98,10 +98,21 @@ for ($i = 0; $i < $size; $i++) {
             }
             */
         }
+   
     } elseif (isset($_GET["row"]) && isset($_GET["col"]) && isset($_GET["change"])) {
         $parameterI = (int)$_GET["row"];
         $parameterJ = (int)$_GET["col"];
-        $_SESSION["showMap"][$parameterI][$parameterJ] = 'B';
+
+        if ($map[$parameterI][$parameterJ] == '*'){
+            $_SESSION["showMap"][$parameterI][$parameterJ] = 'B';
+            $_SESSION["minesFound"] ++;
+
+            if ($_SESSION["minesFound"] == $minesNumber){
+                header("location: ./win_page.php");
+            }
+            
+        }
+        
     }
     ?>
 
@@ -137,16 +148,18 @@ for ($i = 0; $i < $size; $i++) {
             echo "<tr>";
             for ($j = 0; $j < $size; $j++) {
 
-                //echo "<td class='box'  style='color:black; background-color:lightgray'><a onclick='readPosition(" . $i . "," . $j . ");'>" . $map[$i][$j]."</a></td>";
-
                 if ($_SESSION["showMap"][$i][$j] != 'x' && $_SESSION["showMap"][$i][$j] != '*') {
+
                     if ($_SESSION["showMap"][$i][$j] != '0' && $_SESSION["showMap"][$i][$j] != 'B') {
                         echo "<td class='box'  style='color:black; background-color:#bffa84'>" . $map[$i][$j] . "</td>";
+
                     } elseif ($_SESSION["showMap"][$i][$j] == 'B') {
                         echo "<td class='box'  style='color:black; background-color:#e30e0e'>" . $map[$i][$j] . "</td>";
+
                     } else {
                         echo "<td class='box'  style='color:black; background-color:#bffa84'></td>";
                     }
+
                 } else {
                     echo "<td class='box'  style='color:black; background-color:lightgray'><a onmousedown='readPosition(" . $i . "," . $j . ", event);' >?</a></td>";
                 }
@@ -162,6 +175,7 @@ for ($i = 0; $i < $size; $i++) {
         function readPosition(row, col, event) {
             if (event.button == 1) {
                 document.location = "game.php?row=" + row + "&col=" + col + "&change=1";
+
             } else if (event.button == 0){
                 document.location = "game.php?row=" + row + "&col=" + col;
             }
