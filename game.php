@@ -2,8 +2,8 @@
 // funcion recursiva del buscaminas
 function checkForMines($row, $col, $map, &$auxMap)
 {
-    if($_SESSION["showMap"][$row][$col] == 'B'){
-        return; 
+    if ($_SESSION["showMap"][$row][$col] == 'B') {
+        return;
     }
 
     if ($auxMap[$row][$col]) {
@@ -82,7 +82,6 @@ for ($i = 0; $i < $size; $i++) {
         if ($map[$parameterI][$parameterJ] == '*') {
             header("location: ./index");
             session_destroy();
-        
         } else {
             checkForMines($parameterI, $parameterJ, $map, $auxMap);
 
@@ -102,21 +101,18 @@ for ($i = 0; $i < $size; $i++) {
             }
             */
         }
-   
     } elseif (isset($_GET["row"]) && isset($_GET["col"]) && isset($_GET["change"])) {
         $parameterI = (int)$_GET["row"];
         $parameterJ = (int)$_GET["col"];
 
-        if ($map[$parameterI][$parameterJ] == '*'){
+        if ($map[$parameterI][$parameterJ] == '*') {
             $_SESSION["showMap"][$parameterI][$parameterJ] = 'B';
-            $_SESSION["minesFound"] ++;
+            $_SESSION["minesFound"]++;
 
-            if ($_SESSION["minesFound"] == $minesNumber){
+            if ($_SESSION["minesFound"] == $minesNumber) {
                 header("location: ./win_page.php");
             }
-            
         }
-        
     }
     ?>
 
@@ -156,14 +152,11 @@ for ($i = 0; $i < $size; $i++) {
 
                     if ($_SESSION["showMap"][$i][$j] != '0' && $_SESSION["showMap"][$i][$j] != 'B') {
                         echo "<td class='box'  style='color:black; background-color:#bffa84'>" . $map[$i][$j] . "</td>";
-
                     } elseif ($_SESSION["showMap"][$i][$j] == 'B') {
                         echo "<td class='box'  style='color:black; background-color:#e30e0e'>" . $map[$i][$j] . "</td>";
-
                     } else {
                         echo "<td class='box'  style='color:black; background-color:#bffa84'></td>";
                     }
-
                 } else {
                     echo "<td class='box'  style='color:black; background-color:lightgray'><a onmousedown='readPosition(" . $i . "," . $j . ", event);' >?</a></td>";
                 }
@@ -175,12 +168,22 @@ for ($i = 0; $i < $size; $i++) {
 
     <label>
         <?php
-            if($_SESSION["minesFound"] > 0){
-                echo "Minas encontradas: ".$_SESSION["minesFound"];
-            }
+        if ($_SESSION["minesFound"] > 0) {
+            echo "Minas encontradas: " . $_SESSION["minesFound"] . "<br>";
+        }
+        //echo "Partida empezada a las:".$_SESSION["startTime"]."<br>";
         ?>
-    
     </label>
+    <br>
+    <label>
+
+        <h3 id="time">
+
+
+        </h3>
+
+    </label>
+    <br>
     <button><a href="./close_session.php">Reset</a></button>
 
     <script type="text/javascript">
@@ -188,10 +191,15 @@ for ($i = 0; $i < $size; $i++) {
             if (event.button == 1) {
                 document.location = "game.php?row=" + row + "&col=" + col + "&change=1";
 
-            } else if (event.button == 0){
+            } else if (event.button == 0) {
                 document.location = "game.php?row=" + row + "&col=" + col;
             }
         }
+
+        window.setInterval(function() {
+            let date = new Date();
+            document.getElementById("time").innerHTML = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        }, 1000);
     </script>
 </body>
 
