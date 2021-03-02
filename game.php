@@ -2,6 +2,10 @@
 // funcion recursiva del buscaminas
 function checkForMines($row, $col, $map, &$auxMap)
 {
+    if($_SESSION["showMap"][$row][$col] == 'B'){
+        return; 
+    }
+
     if ($auxMap[$row][$col]) {
         return;
     }
@@ -169,6 +173,14 @@ for ($i = 0; $i < $size; $i++) {
         ?>
     </table>
 
+    <label>
+        <?php
+            if($_SESSION["minesFound"] > 0){
+                echo "Minas encontradas: ".$_SESSION["minesFound"];
+            }
+        ?>
+    
+    </label>
     <button><a href="./close_session.php">Reset</a></button>
 
     <script type="text/javascript">
