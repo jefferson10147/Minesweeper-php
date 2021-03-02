@@ -1,15 +1,16 @@
 <?php
+// funcion recursiva del buscaminas
 function checkForMines($row, $col, $map, &$auxMap)
 {
+    if ($auxMap[$row][$col]) {
+        return;
+    }
+
     if ($row < 0 || $row >= $_SESSION["size"]) {
         return;
     }
 
     if ($col < 0 || $col >= $_SESSION["size"]) {
-        return;
-    }
-
-    if ($auxMap[$row][$col]) {
         return;
     }
 
@@ -25,16 +26,20 @@ function checkForMines($row, $col, $map, &$auxMap)
     checkForMines($row, $col + 1, $map, $auxMap);
 }
 
+// iniciando variables 
 session_start();
 
 $size = $_SESSION["size"];
 $minesNumber = $_SESSION["minesNumber"];
 $map = $_SESSION["matrixMap"];
 
-for ($i = 0; $i < $size; $i++) {
-    for ($j = 0; $j < $size; $j++) {
-        $auxMap[$i][$j] = false;
-        //$_SESSION['auxMap'] = '0';
+
+if (!isset($_GET)){
+    for ($i = 0; $i < $size; $i++) {
+        for ($j = 0; $j < $size; $j++) {
+            $auxMap[$i][$j] = false;
+            $_SESSION["showMap"][$i][$j] = false;
+        }
     }
 }
 ?>
@@ -81,15 +86,15 @@ for ($i = 0; $i < $size; $i++) {
             checkForMines($parameterI, $parameterJ, $map, $auxMap);
 
 
-            /*
+
             for ($i = 0; $i < $size; $i++) {
                 for ($j = 0; $j < $size; $j++) {
-                    if ($auxMap[$i][$j] != '0') {
-                        $_SESSION['auxMap'][$i][$j] = $auxMap[$i][$j];
+                    if ($auxMap[$i][$j]) {
+                        $_SESSION["showMap"][$i][$j] = $map[$i][$j];
                     }
                 }
             }
-            */
+
             /*
             for ($i = 0; $i < $size; $i++) {
                 for ($j = 0; $j < $size; $j++) {
@@ -103,6 +108,7 @@ for ($i = 0; $i < $size; $i++) {
     ?>
 
     <?php
+    /*
     for ($i = 0; $i < $size; $i++) {
         for ($j = 0; $j < $size; $j++) {
             if (!$auxMap[$i][$j]) {
@@ -113,6 +119,17 @@ for ($i = 0; $i < $size; $i++) {
         }
         echo "<br>";
     }
+    */
+    for ($i = 0; $i < $size; $i++) {
+        for ($j = 0; $j < $size; $j++) {
+            if (!$_SESSION["showMap"][$i][$j] || $_SESSION["showMap"][$i][$j] != '0'){
+                echo  "x ";    
+            }
+            echo $_SESSION["showMap"][$i][$j] . " ";
+        }
+        echo "<br>";
+    }
+
     ?>
 
     <table>
@@ -127,10 +144,6 @@ for ($i = 0; $i < $size; $i++) {
         }
         ?>
     </table>
-
-
-
-
 
     <script type="text/javascript">
         function readPosition(row, col) {
