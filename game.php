@@ -15,7 +15,7 @@ function checkForMines($row, $col, $map, &$auxMap)
     }
 
     if ($map[$row][$col] == '*') {
-        $auxMap[$row][$col] = false;
+        $auxMap[$row][$col] = '*';
         return;
     }
 
@@ -34,12 +34,9 @@ $minesNumber = $_SESSION["minesNumber"];
 $map = $_SESSION["matrixMap"];
 
 
-if (!isset($_GET)){
-    for ($i = 0; $i < $size; $i++) {
-        for ($j = 0; $j < $size; $j++) {
-            $auxMap[$i][$j] = false;
-            $_SESSION["showMap"][$i][$j] = false;
-        }
+for ($i = 0; $i < $size; $i++) {
+    for ($j = 0; $j < $size; $j++) {
+        $auxMap[$i][$j] = false;
     }
 }
 ?>
@@ -85,8 +82,6 @@ if (!isset($_GET)){
         } else {
             checkForMines($parameterI, $parameterJ, $map, $auxMap);
 
-
-
             for ($i = 0; $i < $size; $i++) {
                 for ($j = 0; $j < $size; $j++) {
                     if ($auxMap[$i][$j]) {
@@ -94,7 +89,6 @@ if (!isset($_GET)){
                     }
                 }
             }
-
             /*
             for ($i = 0; $i < $size; $i++) {
                 for ($j = 0; $j < $size; $j++) {
@@ -120,15 +114,16 @@ if (!isset($_GET)){
         echo "<br>";
     }
     */
+
+    /*
     for ($i = 0; $i < $size; $i++) {
         for ($j = 0; $j < $size; $j++) {
-            if (!$_SESSION["showMap"][$i][$j] || $_SESSION["showMap"][$i][$j] != '0'){
-                echo  "x ";    
-            }
+            
             echo $_SESSION["showMap"][$i][$j] . " ";
         }
         echo "<br>";
     }
+    */
 
     ?>
 
@@ -137,13 +132,28 @@ if (!isset($_GET)){
         for ($i = 0; $i < $size; $i++) {
             echo "<tr>";
             for ($j = 0; $j < $size; $j++) {
-                echo "<td class='box'  style='color:black; background-color:lightgray'><a onclick='readPosition(" . $i . "," . $j . ");'>" .
-                    $map[$i][$j] . "</a></td>";
+
+                //echo "<td class='box'  style='color:black; background-color:lightgray'><a onclick='readPosition(" . $i . "," . $j . ");'>" . $map[$i][$j]."</a></td>";
+                
+                if ($_SESSION["showMap"][$i][$j] != 'x' && $_SESSION["showMap"][$i][$j] != '*'){
+                    if($_SESSION["showMap"][$i][$j] != '0'){
+                        echo "<td class='box'  style='color:black; background-color:#bffa84'>" . $map[$i][$j]."</td>";
+                    }else{
+                        echo "<td class='box'  style='color:black; background-color:#bffa84'></td>";
+                    }
+                }else{
+                    echo "<td class='box'  style='color:black; background-color:lightgray'><a onclick='readPosition(" . $i . "," . $j . ");' >?</a></td>";
+                }
+
+
+                
             }
             echo "</tr>";
         }
         ?>
     </table>
+
+    <button><a href="./close_session.php">Reset</a></button>
 
     <script type="text/javascript">
         function readPosition(row, col) {

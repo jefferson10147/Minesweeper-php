@@ -13,7 +13,8 @@
     //creando la matriz
     for ($i = 0; $i < $size; $i++){
         for ($j = 0; $j < $size; $j++){
-            $_SESSION["matrixMap"][$i][$j] = '0';        
+            $_SESSION["matrixMap"][$i][$j] = '0'; 
+            $_SESSION["showMap"][$i][$j] = 'x';       
         }
     }
     
