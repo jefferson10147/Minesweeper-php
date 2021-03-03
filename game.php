@@ -64,7 +64,9 @@ for ($i = 0; $i < $size; $i++) {
             background-color: gray;
             margin: 0 auto;
             color: black;
-            font-family: 'Terminal';
+            cursor: pointer;
+            font-family: 'Consolas';
+            font-weight: bold;
         }
 
         body {
@@ -80,8 +82,7 @@ for ($i = 0; $i < $size; $i++) {
             background-color: darkgrey;
         }
 
-        h2,
-        h3 {
+        h2, h3, h4, h5 {
             font-family: 'Press Start 2P', cursive;
         }
     </style>
@@ -89,7 +90,7 @@ for ($i = 0; $i < $size; $i++) {
 
 </head>
 
-<body>
+<body oncontextmenu="return false;">
     <?php
     if (!isset($_SESSION['timer'])) {
         $_SESSION['timer'] = time();
@@ -101,7 +102,7 @@ for ($i = 0; $i < $size; $i++) {
 
         // finalizar juego
         if ($map[$parameterI][$parameterJ] == '*') {
-            header("location: ./index");
+            header("location: ./index.php?gameOver=1");
             session_destroy();
         } else {
             checkForMines($parameterI, $parameterJ, $map, $auxMap);
@@ -133,6 +134,8 @@ for ($i = 0; $i < $size; $i++) {
 
     <div class="center">
         <h2>Buscaminas</h2>
+        <h4 style="color:orangered">Marca todas las minas para ganar</h4>
+        <h5 style="color:orangered">* Presione click derecho sobre la casilla para descubrirla<br>* Presione click izquierdo para descubrir una mina</h5>
         <table>
             <?php
             for ($i = 0; $i < $size; $i++) {
@@ -173,12 +176,12 @@ for ($i = 0; $i < $size; $i++) {
 
         <br>
 
-        <button><a href="./close_session.php">Reset</a></button>
+        <button><a href="./close_session.php">Reiniciar</a></button>
     </div>
 
     <script type="text/javascript">
         function readPosition(row, col, event) {
-            if (event.button == 1) {
+            if (event.button == 2) {
                 document.location = "game.php?row=" + row + "&col=" + col + "&change=1";
 
             } else if (event.button == 0) {
