@@ -52,6 +52,8 @@ for ($i = 0; $i < $size; $i++) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
     <style media="screen">
         .box {
@@ -59,13 +61,26 @@ for ($i = 0; $i < $size; $i++) {
             height: 50px;
             background-color: gray;
             margin: 0 auto;
-            text-align: center;
+            /* text-align: center;*/
             color: black;
             font-family: 'Terminal';
         }
 
         body {
-            background-color: darkgray;
+            background-color: darkgrey;
+        }
+
+        .center {
+            margin: auto;
+            width: 70%;
+            border: 10px;
+            text-align: center;
+            padding: 10px;
+            background-color: darkgrey;
+        }
+
+        h2, h3 {
+            font-family: 'Press Start 2P', cursive;
         }
     </style>
 
@@ -78,8 +93,6 @@ for ($i = 0; $i < $size; $i++) {
         $_SESSION['timer'] = time();
     }
 
-    
-
     if (isset($_GET["row"]) && isset($_GET["col"]) && !isset($_GET["change"])) {
         $parameterI = (int)$_GET["row"];
         $parameterJ = (int)$_GET["col"];
@@ -88,6 +101,7 @@ for ($i = 0; $i < $size; $i++) {
         if ($map[$parameterI][$parameterJ] == '*') {
             header("location: ./index");
             session_destroy();
+
         } else {
             checkForMines($parameterI, $parameterJ, $map, $auxMap);
 
@@ -98,14 +112,6 @@ for ($i = 0; $i < $size; $i++) {
                     }
                 }
             }
-            /*
-            for ($i = 0; $i < $size; $i++) {
-                for ($j = 0; $j < $size; $j++) {
-                    echo $auxMap[$i][$j] . " ";
-                }
-                echo "<br>";
-            }
-            */
         }
     } elseif (isset($_GET["row"]) && isset($_GET["col"]) && isset($_GET["change"])) {
         $parameterI = (int)$_GET["row"];
@@ -124,74 +130,50 @@ for ($i = 0; $i < $size; $i++) {
     }
     ?>
 
-    <?php
-    /*
-    for ($i = 0; $i < $size; $i++) {
-        for ($j = 0; $j < $size; $j++) {
-            if (!$auxMap[$i][$j]) {
-                echo "x ";
-            } else {
-                echo $auxMap[$i][$j] . " ";
-            }
-        }
-        echo "<br>";
-    }
-    */
+    <div class="center">
+        <h2>Buscaminas</h2>
+        <table>
+            <?php
+            for ($i = 0; $i < $size; $i++) {
+                echo "<tr>";
+                for ($j = 0; $j < $size; $j++) {
 
-    /*
-    for ($i = 0; $i < $size; $i++) {
-        for ($j = 0; $j < $size; $j++) {
-            
-            echo $_SESSION["showMap"][$i][$j] . " ";
-        }
-        echo "<br>";
-    }
-    */
+                    if ($_SESSION["showMap"][$i][$j] != 'x' && $_SESSION["showMap"][$i][$j] != '*') {
 
-    ?>
-
-    <table>
-        <?php
-        for ($i = 0; $i < $size; $i++) {
-            echo "<tr>";
-            for ($j = 0; $j < $size; $j++) {
-
-                if ($_SESSION["showMap"][$i][$j] != 'x' && $_SESSION["showMap"][$i][$j] != '*') {
-
-                    if ($_SESSION["showMap"][$i][$j] != '0' && $_SESSION["showMap"][$i][$j] != 'B') {
-                        echo "<td class='box'  style='color:black; background-color:#bffa84'>" . $map[$i][$j] . "</td>";
-                    } elseif ($_SESSION["showMap"][$i][$j] == 'B') {
-                        echo "<td class='box'  style='color:black; background-color:#e30e0e'>" . $map[$i][$j] . "</td>";
+                        if ($_SESSION["showMap"][$i][$j] != '0' && $_SESSION["showMap"][$i][$j] != 'B') {
+                            echo "<td class='box'  style='color:black; background-color:#bffa84'>" . $map[$i][$j] . "</td>";
+                        } elseif ($_SESSION["showMap"][$i][$j] == 'B') {
+                            echo "<td class='box'  style='color:black; background-color:#e30e0e'>" . $map[$i][$j] . "</td>";
+                        } else {
+                            echo "<td class='box'  style='color:black; background-color:#bffa84'></td>";
+                        }
                     } else {
-                        echo "<td class='box'  style='color:black; background-color:#bffa84'></td>";
+                        echo "<td class='box'  style='color:black; background-color:lightgray'><a onmousedown='readPosition(" . $i . "," . $j . ", event);' >?</a></td>";
                     }
-                } else {
-                    echo "<td class='box'  style='color:black; background-color:lightgray'><a onmousedown='readPosition(" . $i . "," . $j . ", event);' >?</a></td>";
                 }
+                echo "</tr>";
             }
-            echo "</tr>";
-        }
-        ?>
-    </table>
+            ?>
+        </table>
 
-    <label>
-        <?php
-        if ($_SESSION["minesFound"] > 0) {
-            echo "Minas encontradas: " . $_SESSION["minesFound"] . "<br>";
-        }
-        //echo "Partida empezada a las:".$_SESSION["startTime"]."<br>";
-        ?>
-    </label>
+        <h3>
+            <?php
+            if ($_SESSION["minesFound"] > 0) {
+                echo "Minas encontradas: " . $_SESSION["minesFound"] . "<br>";
+            }
+            ?>
+        </h3>
 
-    <br>
+        <br>
 
-    <label>
-        <h3 id="time"></h3>
-    </label>
+        <label>
+            <h3 id="time"></h3>
+        </label>
 
-    <br>
+        <br>
 
-    <button><a href="./close_session.php">Reset</a></button>
+        <button><a href="./close_session.php">Reset</a></button>
+    </div>
 
     <script type="text/javascript">
         function readPosition(row, col, event) {
@@ -205,7 +187,19 @@ for ($i = 0; $i < $size; $i++) {
 
         window.setInterval(function() {
             let date = new Date();
-            document.getElementById("time").innerHTML = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+            if (date.getMinutes() < 10 ){
+                minutes = "0"+date.getMinutes();
+            }else{
+                minutes = ""+date.getMinutes();
+            }
+
+            if (date.getSeconds() < 10 ){
+                seconds = "0"+date.getSeconds();
+            }else{
+                seconds = ""+date.getSeconds();
+            }
+            document.getElementById("time").innerHTML = date.getHours() + ":" + minutes + ":" + seconds;
         }, 1000);
     </script>
 </body>
