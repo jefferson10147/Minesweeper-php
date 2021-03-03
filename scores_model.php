@@ -10,33 +10,40 @@
 
         public function getAllScores(){
 
-            parent::connectToDB();
-            $connection = parent::getConnection();
+            
 
             try{
+                parent::connectToDB();
+                
+                $connection = parent::getConnection();
                 $query = "SELECT * FROM ".$this->table."  ORDER BY time ASC";  
-                return $connection->query($query)->fetchAll();
-            
+                $results = $connection->query($query)->fetchAll();
+                
+                parent::disconnectDB();
+                
+                return $results;
             }catch (Exception $e){
                 exit ("ERROR: ".$e->getMessage());
             }
 
-            parent::disconnectDB();
         }
 
         public function insertScore($name, $time, $level){
-            parent::connectToDB();
-            $connection = parent:: getConnection();
+           
             
             try{
+                parent::connectToDB();
+                
+                $connection = parent:: getConnection();
                 $query = "INSERT INTO scores (Id, name, time, level) VALUES (NULL, ?, ?, ?);";
                 $connection->prepare($query)->execute([$name, $time, $level]);
-            
+                
+                parent::disconnectDB();
+                
             }catch (Exception $e){
                 exit ("ERROR: ".$e->getMessage());
             }
 
-            parent::disconnectDB();
 
         }
 
