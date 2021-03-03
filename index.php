@@ -6,26 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Start</title>
+    <link rel="icon" href="./assets/img/logo.png" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
     <style>
         .center {
             margin: auto;
             width: 50%;
-            border: 10px;
+            border: 5px;
             border-style: solid;
             border-color: #000203;
             text-align: center;
             padding: 10px;
-            background-color: darkgrey;
+            background-color: grey;
             font-family: 'Press Start 2P', cursive;
         }
     </style>
 </head>
 
-<body style="background-color:aliceblue">
+<body style="background-color:darkgrey">
     <p align="center">
-        <img src="./assets/img/title.png" width="20%" height="20%">
+        <img src="./assets/img/title.png" width="35%" height="35%">
     </p>
 
     <div class="center">

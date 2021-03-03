@@ -2,14 +2,6 @@
 // funcion recursiva del buscaminas
 function checkForMines($row, $col, $map, &$auxMap)
 {
-    if ($_SESSION["showMap"][$row][$col] == 'B') {
-        return;
-    }
-
-    if ($auxMap[$row][$col]) {
-        return;
-    }
-
     if ($row < 0 || $row >= $_SESSION["size"]) {
         return;
     }
@@ -18,6 +10,15 @@ function checkForMines($row, $col, $map, &$auxMap)
         return;
     }
 
+    if ($_SESSION["showMap"][$row][$col] == 'B') {
+        return;
+    }
+
+    if ($auxMap[$row][$col]) {
+        return;
+    }
+
+    
     if ($map[$row][$col] == '*') {
         $auxMap[$row][$col] = '*';
         return;
@@ -52,6 +53,7 @@ for ($i = 0; $i < $size; $i++) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game</title>
+    <link rel="icon" href="./assets/img/logo.png" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
@@ -61,7 +63,6 @@ for ($i = 0; $i < $size; $i++) {
             height: 50px;
             background-color: gray;
             margin: 0 auto;
-            /* text-align: center;*/
             color: black;
             font-family: 'Terminal';
         }
@@ -79,7 +80,8 @@ for ($i = 0; $i < $size; $i++) {
             background-color: darkgrey;
         }
 
-        h2, h3 {
+        h2,
+        h3 {
             font-family: 'Press Start 2P', cursive;
         }
     </style>
@@ -101,7 +103,6 @@ for ($i = 0; $i < $size; $i++) {
         if ($map[$parameterI][$parameterJ] == '*') {
             header("location: ./index");
             session_destroy();
-
         } else {
             checkForMines($parameterI, $parameterJ, $map, $auxMap);
 
@@ -188,16 +189,16 @@ for ($i = 0; $i < $size; $i++) {
         window.setInterval(function() {
             let date = new Date();
 
-            if (date.getMinutes() < 10 ){
-                minutes = "0"+date.getMinutes();
-            }else{
-                minutes = ""+date.getMinutes();
+            if (date.getMinutes() < 10) {
+                minutes = "0" + date.getMinutes();
+            } else {
+                minutes = "" + date.getMinutes();
             }
 
-            if (date.getSeconds() < 10 ){
-                seconds = "0"+date.getSeconds();
-            }else{
-                seconds = ""+date.getSeconds();
+            if (date.getSeconds() < 10) {
+                seconds = "0" + date.getSeconds();
+            } else {
+                seconds = "" + date.getSeconds();
             }
             document.getElementById("time").innerHTML = date.getHours() + ":" + minutes + ":" + seconds;
         }, 1000);
