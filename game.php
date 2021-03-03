@@ -125,7 +125,6 @@ for ($i = 0; $i < $size; $i++) {
                 }
             }
 
-            echo $freeBoxes."<br>";
             if ($freeBoxes <= 0){
                 $now = time();
                 $_SESSION["gameTime"] = $now - $_SESSION['timer'];

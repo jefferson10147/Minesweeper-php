@@ -1,7 +1,7 @@
 <?php
 
 
-    if (!isset($_GET["size"])){
+    if (!isset($_GET["size"]) || !isset($_GET["username"])){
         header("location: ./index.php");
     }
 
@@ -77,7 +77,6 @@
             $minesAtPosition ++;
         }
         
-        // echo("NUMERO DE MINAAS ".$minesAtPosition."<br>");
         return $minesAtPosition;
     }
 
