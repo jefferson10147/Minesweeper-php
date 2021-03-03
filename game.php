@@ -74,6 +74,13 @@ for ($i = 0; $i < $size; $i++) {
 
 <body>
     <?php
+    if (!isset($_SESSION['timer'])) {
+        $_SESSION['timer'] = time();
+    }
+
+    $now = time();
+    $timeGame = $now - $_SESSION['timer'];
+
     if (isset($_GET["row"]) && isset($_GET["col"]) && !isset($_GET["change"])) {
         $parameterI = (int)$_GET["row"];
         $parameterJ = (int)$_GET["col"];
@@ -110,7 +117,7 @@ for ($i = 0; $i < $size; $i++) {
             $_SESSION["minesFound"]++;
 
             if ($_SESSION["minesFound"] == $minesNumber) {
-                header("location: ./win_page.php");
+                header("location: ./win_page.php?time=" . $timeGame . "&level=" . $size);
             }
         }
     }
@@ -174,16 +181,15 @@ for ($i = 0; $i < $size; $i++) {
         //echo "Partida empezada a las:".$_SESSION["startTime"]."<br>";
         ?>
     </label>
+
     <br>
+
     <label>
-
-        <h3 id="time">
-
-
-        </h3>
-
+        <h3 id="time"></h3>
     </label>
+
     <br>
+
     <button><a href="./close_session.php">Reset</a></button>
 
     <script type="text/javascript">
