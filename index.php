@@ -14,7 +14,7 @@
         <label>Nombre del jugador: </label><input type="text" name="username" required>
         <br>
         <label>Nivel [8:20]</label>
-        <input type="number" min="8" max="20" name="size">
+        <input type="number" min="8" max="20" name="size" required>
         <br>
         <button type="submit" value="send">ok</button>
     </form>

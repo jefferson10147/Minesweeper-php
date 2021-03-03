@@ -1,7 +1,9 @@
 <?php
-if (isset($_GET["time"]) && isset($_GET["size"])) {
-    $time = $_GET["time"];
-    $levell = $_GET["size"];
+session_start(); 
+
+if (isset($_SESSION["gameTime"]) && isset($_SESSION["size"])) {
+    $time = $_SESSION["gameTime"];
+    $level = $_SESSION["size"];
 }
 ?>
 
@@ -16,6 +18,11 @@ if (isset($_GET["time"]) && isset($_GET["size"])) {
 </head>
 
 <body>
+    <?php
+
+    echo "<h2>Felicitaciones " . $_SESSION["username"] . " Ha ganado en el nivel " . $level . " in " . $time . " seconds.";
+
+    ?>
     <button><a href="./close_session.php">Nueva Partida</a></button>
 </body>
 

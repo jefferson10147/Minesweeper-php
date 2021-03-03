@@ -78,8 +78,7 @@ for ($i = 0; $i < $size; $i++) {
         $_SESSION['timer'] = time();
     }
 
-    $now = time();
-    $timeGame = $now - $_SESSION['timer'];
+    
 
     if (isset($_GET["row"]) && isset($_GET["col"]) && !isset($_GET["change"])) {
         $parameterI = (int)$_GET["row"];
@@ -117,7 +116,9 @@ for ($i = 0; $i < $size; $i++) {
             $_SESSION["minesFound"]++;
 
             if ($_SESSION["minesFound"] == $minesNumber) {
-                header("location: ./win_page.php?time=" . $timeGame . "&level=" . $size);
+                $now = time();
+                $_SESSION["gameTime"] = $now - $_SESSION['timer'];
+                header("location: ./win_page.php");
             }
         }
     }

@@ -92,7 +92,6 @@
     $_SESSION["size"] = $size;
     $_SESSION["minesNumber"] = $minesNumber;
     $_SESSION["minesFound"] = 0;
-    //$_SESSION["startTime"] = time();
-
+    $_SESSION["username"] = $_GET["username"];
     header("location: ./game.php");
 ?>
