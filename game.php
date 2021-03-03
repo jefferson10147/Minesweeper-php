@@ -18,7 +18,7 @@ function checkForMines($row, $col, $map, &$auxMap)
         return;
     }
 
-    
+
     if ($map[$row][$col] == '*') {
         $auxMap[$row][$col] = '*';
         return;
@@ -82,7 +82,10 @@ for ($i = 0; $i < $size; $i++) {
             background-color: darkgrey;
         }
 
-        h2, h3, h4, h5 {
+        h2,
+        h3,
+        h4,
+        h5 {
             font-family: 'Press Start 2P', cursive;
         }
     </style>
