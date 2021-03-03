@@ -152,7 +152,7 @@ for ($i = 0; $i < $size; $i++) {
     <div class="center">
         <h2>Buscaminas</h2>
         <h4 style="color:orangered">Marca todas las minas para ganar</h4>
-        <h5 style="color:orangered">* Presione click derecho sobre la casilla para descubrirla<br>* Presione click izquierdo para descubrir una mina</h5>
+        <h5 style="color:orangered">* Presione click derecho sobre una casilla para descubrirla<br>* Presione click izquierdo sobre alguna casilla para marcar una mina</h5>
         <table>
             <?php
             for ($i = 0; $i < $size; $i++) {
