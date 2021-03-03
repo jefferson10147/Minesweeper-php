@@ -1,10 +1,15 @@
 <?php
-session_start(); 
+include("./scores_model.php");
 
-if (isset($_SESSION["gameTime"]) && isset($_SESSION["size"])) {
+session_start(); 
+if (isset($_SESSION["gameTime"]) && isset($_SESSION["size"]) && isset($_SESSION["username"])) {
     $time = $_SESSION["gameTime"];
     $level = $_SESSION["size"];
+    $username = $_SESSION["username"];
 }
+
+$scoresModel = new Scores();
+$scoresModel->insertScore($username, $time, $level);
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +25,7 @@ if (isset($_SESSION["gameTime"]) && isset($_SESSION["size"])) {
 <body>
     <?php
 
-    echo "<h2>Felicitaciones " . $_SESSION["username"] . " Ha ganado en el nivel " . $level . " in " . $time . " seconds.";
+    echo "<h2>Felicitaciones " . $username . " Ha ganado en el nivel " . $level . " in " . $time . " seconds.";
 
     ?>
     <button><a href="./close_session.php">Nueva Partida</a></button>

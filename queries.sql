@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS minesweeper;
+
+USE minesweeper;
+
+CREATE TABLE IF NOT EXISTS scores (
+    Id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(64) NOT NULL,
+    time INT NOT NULL,
+    level INT NOT NULL,
+    PRIMARY KEY (Id)
+);
