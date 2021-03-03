@@ -6,7 +6,7 @@
     }
 
     $size = $_GET["size"];
-    $minesNumber = round(($size * $size) * 0.30);
+    $minesNumber = round(($size * $size) * 0.35);
     
     session_start();
 
@@ -93,5 +93,6 @@
     $_SESSION["minesNumber"] = $minesNumber;
     $_SESSION["minesFound"] = 0;
     $_SESSION["username"] = $_GET["username"];
+    $_SESSION["freeBoxes"] = round($size * $size - $minesNumber);
     header("location: ./game.php");
 ?>

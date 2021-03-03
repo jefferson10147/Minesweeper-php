@@ -33,7 +33,7 @@ function checkForMines($row, $col, $map, &$auxMap)
 
 // iniciando variables 
 session_start();
-
+$freeBoxes = $_SESSION["freeBoxes"];
 $size = $_SESSION["size"];
 $minesNumber = $_SESSION["minesNumber"];
 $map = $_SESSION["matrixMap"];
@@ -106,7 +106,6 @@ for ($i = 0; $i < $size; $i++) {
         // finalizar juego
         if ($map[$parameterI][$parameterJ] == '*') {
             header("location: ./index.php?gameOver=1");
-            session_destroy();
         } else {
             checkForMines($parameterI, $parameterJ, $map, $auxMap);
 
@@ -116,6 +115,21 @@ for ($i = 0; $i < $size; $i++) {
                         $_SESSION["showMap"][$i][$j] = $map[$i][$j];
                     }
                 }
+            }
+
+            for ($i = 0; $i < $size; $i++) {
+                for ($j = 0; $j < $size; $j++) {
+                    if ($_SESSION["showMap"][$i][$j] != 'x' && $_SESSION["showMap"][$i][$j] != '*') {
+                        $freeBoxes --;
+                    }
+                }
+            }
+
+            echo $freeBoxes."<br>";
+            if ($freeBoxes <= 0){
+                $now = time();
+                $_SESSION["gameTime"] = $now - $_SESSION['timer'];
+                header("location: ./win_page.php");
             }
         }
     } elseif (isset($_GET["row"]) && isset($_GET["col"]) && isset($_GET["change"])) {
